@@ -4,6 +4,26 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'jacoco'
+
+jacoco{
+	toolVersion = "0.7.5.201505241946"
+}
+test{
+	jacoco{
+		enable = true
+		destinationFile = file("${buildDir}/jacoco/jacoco.exec")
+	}
+}
+
+jacocoTestReport{
+	reports{
+		xml.enabled false
+		csv.enabled false
+		html.destination file("${buildDir}/jacocoHtml")
+	}
+}
+
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
@@ -17,4 +37,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.codehaus.groovy:groovy'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+jacocoTestCoverageVerification{
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.2
+			}
+		}
+	}
 }
